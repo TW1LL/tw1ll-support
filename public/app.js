@@ -18,10 +18,8 @@ chatCtrl.$inject = ["$scope", '$location', '$anchorScroll'];
 
 function chatCtrl($scope, $location, $anchorScroll) {
     var self = this;
-    $scope.userName = prompt("Your name?");
     $scope.$safeApply = safeApply;
     init();
-    sampleChat();
 
     function sendMessage() {
         writeMessage($scope.chatId, $scope.userName, $scope.chatMessage, true);
@@ -40,9 +38,18 @@ function chatCtrl($scope, $location, $anchorScroll) {
         };
         self.fb = firebase.initializeApp(config);
         self.database = self.fb.database();
+        var googleProvider = new firebase.auth.GoogleAuthProvider();
+        self.fb.auth().signInWithPopup(googleProvider).then(function(result) {
+            var user = result.user;
+            $scope.userName = user.email.split('@')[0];
+            connect();
+        }).catch(function(error) {
+            console.error(error.code, error.message);
+
+        });
     }
 
-    function sampleChat() {
+    function connect() {
         $scope.chatId = "1f3e4957-c8e6-47d1-a9b6-95413f300ddb";
         retreiveChat($scope.chatId);
 
