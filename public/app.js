@@ -18,12 +18,12 @@ chatCtrl.$inject = ["$scope", '$location', '$anchorScroll'];
 
 function chatCtrl($scope, $location, $anchorScroll) {
     var self = this;
-
+    $scope.userName = prompt("Your name?");
     init();
     sampleChat();
 
     function sendMessage() {
-        writeMessage($scope.chatId, "tfitz237", $scope.chatMessage, true);
+        writeMessage($scope.chatId, $scope.userName, $scope.chatMessage, true);
         $scope.chatMessage = "";
     }
 
