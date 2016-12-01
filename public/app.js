@@ -51,13 +51,18 @@ function chatCtrl($scope, $location, $anchorScroll) {
     function retreiveChat(chatId) {
         $scope.chat = { info : {}, messages : {}};
         self.database.ref("messages/"+chatId).once('value').then(function(data) {
-            $scope.isLoading = "";
-            $scope.chat.messages = data.val();
-            $scope.$apply();
+
+            $scope.$safeApply(function() {
+                $scope.isLoading = "";
+                $scope.chat.messages = data.val();
+                $location.hash(Object.keys($scope.chat.messages)[Object.keys($scope.chat.messages).length-1])
+                $anchorScroll();
+            });
         });
         self.database.ref("chats/"+chatId).once('value', function(data) {
-            $scope.chat.info = data.val();
-            $scope.$apply();
+            $scope.$safeApply(function() {
+                $scope.chat.info = data.val();
+            });
         });
         self.database.ref("messages/"+chatId).on('child_added', function(data) {
             $scope.$safeApply(function() {
