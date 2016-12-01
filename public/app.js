@@ -19,6 +19,7 @@ chatCtrl.$inject = ["$scope", '$location', '$anchorScroll'];
 function chatCtrl($scope, $location, $anchorScroll) {
     var self = this;
     $scope.userName = prompt("Your name?");
+    $scope.$safeApply = safeApply;
     init();
     sampleChat();
 
@@ -59,7 +60,9 @@ function chatCtrl($scope, $location, $anchorScroll) {
             $scope.$apply();
         });
         self.database.ref("messages/"+chatId).on('child_added', function(data) {
-            $scope.chat.messages[data.key] = data.val();
+            $scope.$safeApply(function() {
+                $scope.chat.messages[data.key] = data.val();
+            });
             $location.hash(data.key);
             $anchorScroll();
 
@@ -114,4 +117,14 @@ function chatCtrl($scope, $location, $anchorScroll) {
         });
         return uuid;
     };
+    function safeApply(fn) {
+            var phase = this.$root.$$phase;
+            if(phase == '$apply' || phase == '$digest') {
+                if(fn && (typeof(fn) === 'function')) {
+                    fn();
+                }
+            } else {
+                this.$apply(fn);
+            }
+    }
 }
