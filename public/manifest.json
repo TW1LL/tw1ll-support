@@ -1,0 +1,7 @@
+{
+  "short_name": "TW1LL Support",
+  "name": "A quick one-on-one support chat",
+
+  "start_url": "index.html",
+  "gcm_sender_id": "103953800507"
+}

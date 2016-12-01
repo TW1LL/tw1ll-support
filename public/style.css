@@ -1,0 +1,43 @@
+.chatBox {
+    height: 300px;
+    width: 250px;
+    border: 1px solid black;
+    font-family: sans-serif;
+    font-size: 14px;
+    border-radius: 5px;
+}
+.chatBox .header {
+    border-bottom: 1px solid black;
+    text-align: center;
+    padding: 2px;
+    height: 20px;
+    background: #006699;
+    color: #EEE;
+}
+.chatBox .header h4 {
+    margin: 0;
+}
+.chatBox .content {
+    height: 249px;
+    background: #EEFEFF;
+    overflow-y: scroll;
+}
+.chatBox .content.loading {
+    background-image: url(http://design.printexpress.co.uk/wp-content/uploads/2015/10/04-spinner.gif);
+    background-size: 250px
+}
+.chatBox .content ul {
+    margin: 0;
+    list-style-type: none;
+    padding: 5px;
+}
+.chatBox .footer input {
+    width: 240px;
+    height: 15px;
+    padding: 5px;
+    border: none;
+    border-top: 1px solid black;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+
+}

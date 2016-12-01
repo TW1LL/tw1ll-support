@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+    <title>TW1LL Support</title>
+
+</head>
+<body ng-app="app">
+<div class="chatBox" ng-controller="chatCtrl">
+    <div class="header">
+        <h4 ng-bind="chat.info.topic"></h4>
+    </div>
+    <div class="content" ng-class="isLoading">
+        <ul>
+           <li ng-repeat="(key,msg) in chat.messages"><a href="#" id="{{key}}" title="{{msg.timestamp | date : 'short' }}">{{msg.sender}}</a>: <span>{{msg.message}}</span></li>
+        </ul>
+    </div>
+    <div class="footer">
+        <input type="text" id="chatBoxMessage" ng-model="chatMessage" ng-enter="sendMessage()" />
+
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.0-rc.2/angular.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.6.2/firebase.js"></script>
+<script src="app.js"></script>
+
+
+</html>
