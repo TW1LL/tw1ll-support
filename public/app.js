@@ -18,17 +18,14 @@ chatCtrl.$inject = ["$scope", '$location', '$anchorScroll'];
 
 function chatCtrl($scope, $location, $anchorScroll) {
     var self = this;
-    $scope.$safeApply = safeApply;
     init();
-
-    function sendMessage() {
-        writeMessage($scope.chatId, $scope.userName, $scope.chatMessage, true);
-        $scope.chatMessage = "";
-    }
+    authorize();
 
     function init() {
         $scope.sendMessage = sendMessage;
         $scope.isLoading = "loading";
+        $scope.$safeApply = safeApply;
+        $scope.signOut = signOut;
         var config = {
             apiKey: "AIzaSyBXL-rNE_oAIrpKasYYvJYNvSgxsqtNOSg",
             authDomain: "tw1ll-a7f80.firebaseapp.com",
@@ -38,27 +35,56 @@ function chatCtrl($scope, $location, $anchorScroll) {
         };
         self.fb = firebase.initializeApp(config);
         self.database = self.fb.database();
-        var googleProvider = new firebase.auth.GoogleAuthProvider();
-        self.fb.auth().signInWithPopup(googleProvider).then(function(result) {
-            var user = result.user;
-            $scope.userName = user.email.split('@')[0];
-            connect();
-        }).catch(function(error) {
-            console.error(error.code, error.message);
+    }
+    function sendMessage() {
+        writeMessage($scope.chatId, $scope.userName, $scope.chatMessage, true);
+        $scope.chatMessage = "";
+    }
 
+    function signOut() {
+        console.log("signing out");
+        self.fb.auth().signOut();
+    }
+
+
+    function authorize() {
+        var googleProvider = new firebase.auth.GoogleAuthProvider();
+        self.fb.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                $scope.userName = user.email.split('@')[0];
+                connect();
+            } else {
+                disconnect();
+                self.fb.auth().signInWithRedirect(googleProvider);
+                console.log('not signed in');
+                self.fb.auth().getRedirectResult().then(function (result) {
+                    var user = result.user;
+                    $scope.userName = user.email.split('@')[0];
+                    connect();
+                }).catch(function (error) {
+                    console.error(error.code, error.message);
+
+                });
+            }
         });
     }
 
-    function connect() {
-        $scope.chatId = "1f3e4957-c8e6-47d1-a9b6-95413f300ddb";
+
+
+    function connect(chatId) {
+        $scope.chatId = "1f3e4957-c8e6-47d1-a9b6-95413f300ddb"; // For now
         retreiveChat($scope.chatId);
 
+    }
+    function disconnect() {
+        $scope.chatId = "";
+        $scope.chat = "";
+        $scope.isLoading = "loading";
     }
 
     function retreiveChat(chatId) {
         $scope.chat = { info : {}, messages : {}};
         self.database.ref("messages/"+chatId).once('value').then(function(data) {
-
             $scope.$safeApply(function() {
                 $scope.isLoading = "";
                 $scope.chat.messages = data.val();
@@ -81,9 +107,6 @@ function chatCtrl($scope, $location, $anchorScroll) {
         });
     }
 
-
-
-
     function writeMessage(chatId, user, message, isClient) {
         self.database.ref('chats/' + chatId).set({
             lastMessage: message,
@@ -99,7 +122,6 @@ function chatCtrl($scope, $location, $anchorScroll) {
         });
 
     }
-
 
     function createChat(topic, user) {
         var chatId = uuid();
@@ -118,8 +140,6 @@ function chatCtrl($scope, $location, $anchorScroll) {
         return chatId;
     }
 
-
-
     function uuid() {
         var d = new Date().getTime();
         var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -128,7 +148,8 @@ function chatCtrl($scope, $location, $anchorScroll) {
             return (c=='x' ? r : (r&0x3|0x8)).toString(16);
         });
         return uuid;
-    };
+    }
+
     function safeApply(fn) {
             var phase = this.$root.$$phase;
             if(phase == '$apply' || phase == '$digest') {

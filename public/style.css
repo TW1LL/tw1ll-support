@@ -17,6 +17,15 @@
 .chatBox .header h4 {
     margin: 0;
 }
+.chatBox .header .closeButton {
+    background: #EEE;
+    color: #555;
+    border-radius: 25px;
+    float: right;
+    margin-top: -15px;
+    border: none;
+    cursor: pointer;
+}
 .chatBox .content {
     height: 249px;
     background: #EEFEFF;
