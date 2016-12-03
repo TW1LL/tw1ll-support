@@ -30,6 +30,7 @@
     height: 249px;
     background: #EEFEFF;
     overflow-y: scroll;
+    border-bottom: 1px solid black;
 }
 .chatBox .content.loading {
     background-image: url(http://design.printexpress.co.uk/wp-content/uploads/2015/10/04-spinner.gif);
@@ -53,7 +54,6 @@
     height: 15px;
     padding: 5px;
     border: none;
-    border-top: 1px solid black;
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
 
@@ -96,4 +96,16 @@
     white-space: nowrap;
     padding: 2px;
     background: white;
+}
+@media (max-width: 768px) {
+    .chatBox {
+        width: 100%;
+        height: calc(100vh - 25px);
+    }
+    .chatBox .content {
+        height: calc(100vh - 76px);
+    }
+    .chatBox .footer input {
+        width: 97%;
+    }
 }
