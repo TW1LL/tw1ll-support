@@ -97,7 +97,7 @@
     padding: 2px;
     background: white;
 }
-@media (max-width: 768px) {
+@media (max-width: 640px) {
     .chatBox {
         width: 100%;
         height: calc(100vh - 25px);
