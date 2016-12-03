@@ -1,0 +1,23 @@
+<div class="chatBox">
+    <div class="header">
+        <input ng-model="chat.info.topic" ng-show="chatEditTopic" ng-enter="editTopic()"/>
+        <h4 ng-bind="chat.info.topic" ng-dblclick="showEditTopic()" ng-show="!chatEditTopic"></h4>
+        <button class="closeButton" ng-click="signOut()" ng-show="signedIn">X</button>
+    </div>
+    <div class="content" ng-class="{'loading' : isLoading, 'signedIn' : !signedIn}">
+        <div class="loginForm" ng-show="!signedIn">
+            <input type="text" ng-model="loginEmail" placeholder="Email" name="email"/>
+            <input type="password" ng-model="loginPass" placeholder="Password" ng-enter="btnLoginEmail()" />
+            <button ng-click="btnLoginEmail()">Sign in</button><button ng-click="btnLoginRegister()">Register</button>
+        </div>
+        <ul>
+            <li ng-repeat="(key,msg) in chat.messages">
+                <a id="{{key}}" title="{{msg.timestamp | date : 'short' }}">{{msg.sender}}</a>:
+                <span>{{msg.message}}</span></li>
+            </ul>
+        </div>
+    <div class="footer">
+        <input type="text" id="chatBoxMessage" ng-model="chatMessage" ng-enter="sendMessage()" />
+
+    </div>
+</div>

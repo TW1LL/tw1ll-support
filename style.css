@@ -16,13 +16,13 @@
 }
 .chatBox .header h4 {
     margin: 0;
+    display: inline-block;
 }
 .chatBox .header .closeButton {
     background: #EEE;
     color: #555;
     border-radius: 25px;
     float: right;
-    margin-top: -15px;
     border: none;
     cursor: pointer;
 }
@@ -33,12 +33,20 @@
 }
 .chatBox .content.loading {
     background-image: url(http://design.printexpress.co.uk/wp-content/uploads/2015/10/04-spinner.gif);
-    background-size: 250px
+    background-size: 100%;
+    background-position-y: 50%;
+
+}
+.chatBox .content.signedIn {
+    position: relative;
 }
 .chatBox .content ul {
     margin: 0;
     list-style-type: none;
     padding: 5px;
+}
+.chatBox .content ul li a {
+    color: #006699;
 }
 .chatBox .footer input {
     width: 240px;
@@ -49,4 +57,43 @@
     border-bottom-left-radius: 7px;
     border-bottom-right-radius: 7px;
 
+}
+
+
+.loginForm {
+    background: white;
+    color: #444;
+    width: 170px;
+    border-radius: 5px;
+    border: thin solid #888;
+    box-shadow: 1px 1px 1px grey;
+    white-space: nowrap;
+    position: absolute;
+    bottom: 5px;
+    padding: 10px;
+    left: 50%;
+    margin-left: -95px;
+
+}
+.loginForm input {
+    display: block;
+    text-align: center;
+    border:1px solid grey;
+    padding: 2px;
+
+}
+.loginForm input:first-child {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.loginForm button {
+    width:86px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border: thin solid #888;
+    box-shadow: 1px 1px 1px grey;
+    white-space: nowrap;
+    padding: 2px;
+    background: white;
 }
